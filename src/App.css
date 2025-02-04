@@ -1,44 +1,86 @@
-.app {
-      text-align: center;
-      color: #eee;
+.beat-creator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      user-select: none;
     }
-    
-    .app-header {
-      background-color: #282c34;
-      padding: 20px;
-      color: white;
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    
-    .app-header h1 {
-      margin: 0;
-      color: #61dafb;
+
+    .controls button {
+      padding: 8px 16px;
+      background-color: #61dafb;
+      color: #282c34;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
     }
-    
-    nav ul {
-      list-style: none;
-      padding: 0;
+
+    .controls button:hover {
+      background-color: #4fa3d1;
     }
-    
-    nav ul li {
-      display: inline;
-      margin: 0 10px;
+
+    .controls input[type="range"] {
+      -webkit-appearance: none;
+      width: 150px;
+      height: 5px;
+      background: #444;
+      outline: none;
+      border-radius: 5px;
     }
-    
-    nav ul li a {
-      color: #61dafb;
-      text-decoration: none;
+
+    .controls input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #61dafb;
+      cursor: pointer;
     }
-    
-    main {
-      padding: 20px;
+
+    .sequencer {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-    
-    footer {
-      background-color: #282c34;
-      color: white;
-      padding: 10px;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
+
+    .track {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .track-label {
+      width: 80px;
+      text-align: right;
+    }
+
+    .track-steps {
+      display: flex;
+      gap: 5px;
+    }
+
+    .step {
+      width: 30px;
+      height: 30px;
+      background-color: #333;
+      border: 1px solid #555;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .step.active {
+      background-color: #61dafb;
+    }
+
+    .step.current {
+      border: 2px solid #61dafb;
     }

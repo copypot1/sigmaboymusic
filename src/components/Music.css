@@ -9,7 +9,16 @@
       margin-bottom: 1em;
     }
     
-    .music p {
+    .music button {
+      background-color: #61dafb;
+      color: #282c34;
+      border: none;
+      padding: 10px 20px;
       font-size: 1em;
-      margin-bottom: 2em;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    
+    .music button:hover {
+      background-color: #4fa3d1;
     }
