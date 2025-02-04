@@ -2,120 +2,211 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 25px;
       user-select: none;
+      padding: 20px;
+      border-radius: 15px;
+      background-color: #1a1a1a;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     }
     
     .controls {
       display: flex;
       align-items: center;
+      gap: 15px;
+    }
+    
+    .control-button {
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fafafa;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+    
+    .control-button:hover {
+      background-color: #61dafb;
+      color: #1a1a1a;
+      box-shadow: 0 2px 8px rgba(97, 218, 251, 0.6);
+    }
+    
+    .control-button:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+    
+    .slider-container {
+      display: flex;
+      align-items: center;
       gap: 10px;
     }
     
-    .controls button {
-      padding: 8px 16px;
-      background-color: #61dafb;
-      color: #282c34;
-      border: none;
-      cursor: pointer;
-      font-size: 1em;
+    .slider-container label {
+      color: #fafafa;
+      font-size: 0.9em;
     }
     
-    .controls button:hover {
-      background-color: #4fa3d1;
-    }
-    
-    .controls input[type="range"] {
+    input[type="range"] {
       -webkit-appearance: none;
       width: 150px;
-      height: 5px;
-      background: #444;
+      height: 8px;
+      background: #333;
       outline: none;
-      border-radius: 5px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
     }
     
-    .controls input[type="range"]::-webkit-slider-thumb {
+    input[type="range"]:hover {
+      background: #61dafb;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 15px;
-      height: 15px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      background: #61dafb;
+      background: #fafafa;
       cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb:hover {
+      background: #61dafb;
+      box-shadow: 0 2px 8px rgba(97, 218, 251, 0.6);
     }
     
     .sequencer {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 15px;
     }
     
     .track {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 15px;
+      padding: 15px;
+      border-radius: 10px;
+      background-color: #282828;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
     }
     
     .track-label {
       width: 80px;
       text-align: right;
+      color: #fafafa;
     }
     
     .track-controls {
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      margin-right: 10px;
+      gap: 10px;
+      margin-right: 15px;
     }
     
     .track-controls label {
       font-size: 0.9em;
+      color: #fafafa;
+    }
+    
+    .pitch-select select {
+      background-color: #333;
+      color: #fafafa;
+      border: none;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .pitch-select select:hover {
+      background-color: #61dafb;
+      color: #1a1a1a;
+    }
+    
+    .track-steps {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .step {
+      width: 35px;
+      height: 35px;
+      background-color: #333;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+    
+    .step.active {
+      background-color: #61dafb;
+      box-shadow: 0 2px 8px rgba(97, 218, 251, 0.6);
+    }
+    
+    .step.current {
+      border: 3px solid #61dafb;
+    }
+    
+    .step:hover {
+      background-color: #61dafb;
+    }
+    
+    .step:active {
+      transform: scale(0.95);
+    }
+    
+    .track-label,
+    .track-controls label,
+    .pitch-select label {
+      color: #fafafa;
+      font-size: 1em;
+      margin-bottom: 5px;
     }
     
     .track-controls input[type="range"] {
       -webkit-appearance: none;
-      width: 100px;
-      height: 5px;
-      background: #444;
+      width: 120px;
+      height: 8px;
+      background: #333;
       outline: none;
-      border-radius: 5px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .track-controls input[type="range"]:hover {
+      background: #61dafb;
     }
     
     .track-controls input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 12px;
-      height: 12px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      background: #61dafb;
+      background: #fafafa;
       cursor: pointer;
+      transition: all 0.3s ease;
     }
     
-    .track-controls select {
-      margin-left: 5px;
+    .track-controls input[type="range"]::-webkit-slider-thumb:hover {
+      background: #61dafb;
+      box-shadow: 0 2px 8px rgba(97, 218, 251, 0.6);
     }
     
-    .track-steps {
+    .track-controls .pitch-select {
       display: flex;
+      flex-direction: column;
       gap: 5px;
     }
     
-    .step {
-      width: 30px;
-      height: 30px;
-      background-color: #333;
-      border: 1px solid #555;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .step.active {
-      background-color: #61dafb;
-    }
-    
-    .step.current {
-      border: 2px solid #61dafb;
+    .track-controls .pitch-select select {
+      width: 120px;
     }

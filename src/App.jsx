@@ -163,35 +163,47 @@ import React, { useState, useEffect, useRef } from 'react';
       return (
         <div className="beat-creator">
           <div className="controls">
-            <button onClick={togglePlay}>{isPlaying ? 'Stop' : 'Play'}</button>
-            <input
-              type="range"
-              min="60"
-              max="180"
-              value={bpm}
-              onChange={handleBpmChange}
-            />
-            <span>{bpm} BPM</span>
-            <button onClick={handleClear}>Clear</button>
+            <button className="control-button" onClick={togglePlay}>
+              {isPlaying ? 'Stop' : 'Play'}
+            </button>
+            <div className="slider-container">
+              <label htmlFor="bpm">BPM</label>
+              <input
+                id="bpm"
+                type="range"
+                min="60"
+                max="180"
+                value={bpm}
+                onChange={handleBpmChange}
+              />
+            </div>
+            <button className="control-button" onClick={handleClear}>
+              Clear
+            </button>
           </div>
           <div className="sequencer">
             {initialTracks.map(track => (
               <div key={track} className="track">
                 <div className="track-label">{track}</div>
                 <div className="track-controls">
-                  <label>
-                    Volume:
+                  <div className="slider-container">
+                    <label htmlFor={`volume-${track}`}>Volume</label>
                     <input
+                      id={`volume-${track}`}
                       type="range"
                       min="-60"
                       max="10"
                       value={volumes[track]}
                       onChange={(e) => handleVolumeChange(track, e)}
                     />
-                  </label>
-                  <label>
-                    Pitch:
-                    <select value={pitches[track]} onChange={(e) => handlePitchChange(track, e)}>
+                  </div>
+                  <div className="pitch-select">
+                    <label htmlFor={`pitch-${track}`}>Pitch</label>
+                    <select
+                      id={`pitch-${track}`}
+                      value={pitches[track]}
+                      onChange={(e) => handlePitchChange(track, e)}
+                    >
                       {track === 'Kick' && (
                         <>
                           <option value="C1">C1</option>
@@ -216,7 +228,7 @@ import React, { useState, useEffect, useRef } from 'react';
                         </>
                       )}
                     </select>
-                  </label>
+                  </div>
                 </div>
                 <div className="track-steps">
                   {trackSequences[track]?.map((step, index) => (
@@ -227,9 +239,7 @@ import React, { useState, useEffect, useRef } from 'react';
                         `${index === currentStep && isPlaying ? 'current' : ''}`
                       }
                       onClick={() => handleStepChange(track, index)}
-                    >
-                      {index + 1}
-                    </button>
+                    />
                   ))}
                 </div>
               </div>
