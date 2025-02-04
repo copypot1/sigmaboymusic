@@ -5,13 +5,13 @@
       gap: 20px;
       user-select: none;
     }
-
+    
     .controls {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
+    
     .controls button {
       padding: 8px 16px;
       background-color: #61dafb;
@@ -20,11 +20,11 @@
       cursor: pointer;
       font-size: 1em;
     }
-
+    
     .controls button:hover {
       background-color: #4fa3d1;
     }
-
+    
     .controls input[type="range"] {
       -webkit-appearance: none;
       width: 150px;
@@ -33,7 +33,7 @@
       outline: none;
       border-radius: 5px;
     }
-
+    
     .controls input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -43,29 +43,64 @@
       background: #61dafb;
       cursor: pointer;
     }
-
+    
     .sequencer {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-
+    
     .track {
       display: flex;
       align-items: center;
       gap: 10px;
+      margin-bottom: 10px;
     }
-
+    
     .track-label {
       width: 80px;
       text-align: right;
     }
-
+    
+    .track-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-right: 10px;
+    }
+    
+    .track-controls label {
+      font-size: 0.9em;
+    }
+    
+    .track-controls input[type="range"] {
+      -webkit-appearance: none;
+      width: 100px;
+      height: 5px;
+      background: #444;
+      outline: none;
+      border-radius: 5px;
+    }
+    
+    .track-controls input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #61dafb;
+      cursor: pointer;
+    }
+    
+    .track-controls select {
+      margin-left: 5px;
+    }
+    
     .track-steps {
       display: flex;
       gap: 5px;
     }
-
+    
     .step {
       width: 30px;
       height: 30px;
@@ -76,11 +111,11 @@
       justify-content: center;
       align-items: center;
     }
-
+    
     .step.active {
       background-color: #61dafb;
     }
-
+    
     .step.current {
       border: 2px solid #61dafb;
     }
