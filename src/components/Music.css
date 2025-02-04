@@ -1,0 +1,15 @@
+.music {
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .music h2 {
+      color: #61dafb;
+      font-size: 2em;
+      margin-bottom: 1em;
+    }
+    
+    .music p {
+      font-size: 1em;
+      margin-bottom: 2em;
+    }
