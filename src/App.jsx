@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
     
     const steps = 16;
     const initialBpm = 120;
-    const initialTracks = ['Kick', 'Snare', 'Hi-Hat'];
+    const initialTracks = ['Kick', 'Snare', 'Hi-Hat', 'Clap', 'Bass'];
     
     function App() {
       const [isPlaying, setIsPlaying] = useState(false);
@@ -13,6 +13,7 @@ import React, { useState, useEffect, useRef } from 'react';
       const [currentStep, setCurrentStep] = useState(0);
       const [volumes, setVolumes] = useState({});
       const [pitches, setPitches] = useState({});
+      const [isClearing, setIsClearing] = useState(false);
       const synths = useRef({});
       const sequences = useRef({});
     
@@ -27,24 +28,68 @@ import React, { useState, useEffect, useRef } from 'react';
         const initialPitches = {};
         initialTracks.forEach(track => {
           initialVolumes[track] = 0; // Default volume (0dB)
-          initialPitches[track] = track === 'Kick' ? 'C2' : 'C4'; // Default pitches
-          if (track === 'Kick') {
-            synths.current[track] = new Tone.MembraneSynth().toDestination();
-          } else if (track === 'Snare') {
-            synths.current[track] = new Tone.NoiseSynth().toDestination();
-          } else if (track === 'Hi-Hat') {
-            synths.current[track] = new Tone.MetalSynth({
-              frequency: 400,
-              envelope: {
-                attack: 0.001,
-                decay: 0.1,
-                release: 0.05
-              },
-              harmonicity: 5.1,
-              modulationIndex: 32,
-              resonance: 4000,
-              octaves: 1
-            }).toDestination();
+          initialPitches[track] = getInitialPitch(track);
+    
+          if (!synths.current[track]) {
+            switch (track) {
+              case 'Kick':
+                synths.current[track] = new Tone.MembraneSynth().toDestination();
+                break;
+              case 'Snare':
+                synths.current[track] = new Tone.NoiseSynth().toDestination();
+                break;
+              case 'Hi-Hat':
+                synths.current[track] = new Tone.MetalSynth({
+                  frequency: 400,
+                  envelope: {
+                    attack: 0.001,
+                    decay: 0.1,
+                    release: 0.05
+                  },
+                  harmonicity: 5.1,
+                  modulationIndex: 32,
+                  resonance: 4000,
+                  octaves: 1
+                }).toDestination();
+                break;
+              case 'Clap':
+                synths.current[track] = new Tone.NoiseSynth({
+                  noise: {
+                    type: 'white',
+                  },
+                  envelope: {
+                    attack: 0.005,
+                    decay: 0.1,
+                    sustain: 0.05,
+                    release: 0.1,
+                  },
+                }).toDestination();
+                break;
+              case 'Bass':
+                synths.current[track] = new Tone.FMSynth({
+                  harmonicity: 2,
+                  modulationIndex: 2,
+                  oscillator: {
+                    type: 'sine'
+                  },
+                  envelope: {
+                    attack: 0.01,
+                    decay: 0.1,
+                    sustain: 0.3,
+                    release: 0.1
+                  },
+                  modulation: {
+                    type: 'square'
+                  },
+                  modulationEnvelope: {
+                    attack: 0.01,
+                    decay: 0.05,
+                    sustain: 0.2,
+                    release: 0.1
+                  }
+                }).toDestination();
+                break;
+            }
           }
         });
         setVolumes(initialVolumes);
@@ -92,12 +137,12 @@ import React, { useState, useEffect, useRef } from 'react';
             (time, step) => {
               if (trackSequences[track][step]) {
                 const pitch = pitches[track];
-                if (track === 'Kick') {
-                  synths.current[track].triggerAttackRelease(pitch, '8n', time);
-                } else if (track === 'Snare') {
-                  synths.current[track].triggerAttackRelease('16n', time);
-                } else if (track === 'Hi-Hat') {
-                  synths.current[track].triggerAttackRelease(pitch, '16n', time);
+                if (synths.current[track]) {
+                  if (track === 'Bass') {
+                    synths.current[track].triggerAttackRelease(pitch, '8n', time);
+                  } else {
+                    synths.current[track].triggerAttackRelease('16n', time);
+                  }
                 }
               }
             },
@@ -116,6 +161,23 @@ import React, { useState, useEffect, useRef } from 'react';
           });
         };
       }, [trackSequences, pitches]);
+    
+      const getInitialPitch = (track) => {
+        switch (track) {
+          case 'Kick':
+            return 'C2';
+          case 'Snare':
+            return 'C4';
+          case 'Hi-Hat':
+            return 'C2';
+          case 'Clap':
+            return 'C3';
+          case 'Bass':
+            return 'C2';
+          default:
+            return 'C4';
+        }
+      };
     
       const togglePlay = async () => {
         if (Tone.context.state !== 'running') {
@@ -153,35 +215,20 @@ import React, { useState, useEffect, useRef } from 'react';
       };
     
       const handleClear = () => {
-        const clearedTrackSequences = {};
-        initialTracks.forEach(track => {
-          clearedTrackSequences[track] = Array(steps).fill(false);
-        });
-        setTrackSequences(clearedTrackSequences);
+        setIsClearing(true);
+        setTimeout(() => {
+          const clearedTrackSequences = {};
+          initialTracks.forEach(track => {
+            clearedTrackSequences[track] = Array(steps).fill(false);
+          });
+          setTrackSequences(clearedTrackSequences);
+          setIsClearing(false);
+        }, 300); // Duration of the wipe effect
       };
     
       return (
         <div className="beat-creator">
-          <div className="controls">
-            <button className="control-button" onClick={togglePlay}>
-              {isPlaying ? 'Stop' : 'Play'}
-            </button>
-            <div className="slider-container">
-              <label htmlFor="bpm">BPM</label>
-              <input
-                id="bpm"
-                type="range"
-                min="60"
-                max="180"
-                value={bpm}
-                onChange={handleBpmChange}
-              />
-            </div>
-            <button className="control-button" onClick={handleClear}>
-              Clear
-            </button>
-          </div>
-          <div className="sequencer">
+          <div className={`sequencer ${isClearing ? 'clearing' : ''}`}>
             {initialTracks.map(track => (
               <div key={track} className="track">
                 <div className="track-label">{track}</div>
@@ -227,6 +274,21 @@ import React, { useState, useEffect, useRef } from 'react';
                           <option value="C5">C5</option>
                         </>
                       )}
+                      {track === 'Clap' && (
+                        <>
+                          <option value="C3">C3</option>
+                          <option value="C4">C4</option>
+                          <option value="C5">C5</option>
+                        </>
+                      )}
+                      {track === 'Bass' && (
+                        <>
+                          <option value="C1">C1</option>
+                          <option value="C2">C2</option>
+                          <option value="G1">G1</option>
+                          <option value="G2">G2</option>
+                        </>
+                      )}
                     </select>
                   </div>
                 </div>
@@ -245,6 +307,28 @@ import React, { useState, useEffect, useRef } from 'react';
               </div>
             ))}
           </div>
+          <div className="controls">
+            <button className="control-button" onClick={togglePlay}>
+              {isPlaying ? 'Stop' : 'Play'}
+            </button>
+            <div className="slider-container">
+              <label htmlFor="bpm">BPM</label>
+              <input
+                id="bpm"
+                type="range"
+                min="60"
+                max="180"
+                value={bpm}
+                onChange={handleBpmChange}
+              />
+            </div>
+            <button className="control-button" onClick={handleClear}>
+              Clear
+            </button>
+          </div>
+          <footer>
+            By Ash
+          </footer>
         </div>
       );
     }
